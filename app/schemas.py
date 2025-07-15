@@ -2,10 +2,24 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional
 
+
 class JobBase(BaseModel):
-    name: str = Field(..., example="Build CERN data pipeline")
-    status: Optional[str] = Field(default="queued", example="queued")
-    result: Optional[str] = Field(default=None, example=None)
+    name: str
+    status: Optional[str] = "queued"
+    result: Optional[str] = None
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "name": "Build CERN data pipeline",
+                    "status": "queued",
+                    "result": None
+                }
+            ]
+        }
+    }
+
 
 class JobCreate(JobBase):
     model_config = {
@@ -22,8 +36,8 @@ class JobCreate(JobBase):
 
 
 class JobResponse(JobBase):
-    id: int = Field(..., example=1)
-    created_at: datetime = Field(..., example="2025-07-15T13:54:23.591450")
+    id: int
+    created_at: datetime
 
     model_config = {
         "from_attributes": True,
@@ -42,14 +56,15 @@ class JobResponse(JobBase):
 
 
 class JobUpdate(BaseModel):
-    name: Optional[str] = Field(default=None, example="Analyze data batch 42")
-    status: Optional[str] = Field(default=None, example="running")
-    result: Optional[str] = Field(default=None, example="Success")
+    name: Optional[str] = None
+    status: Optional[str] = None
+    result: Optional[str] = None
 
     model_config = {
         "json_schema_extra": {
             "examples": [
                 {
+                    "name": "Analyze data batch 42",
                     "status": "done",
                     "result": "Job completed successfully"
                 }
