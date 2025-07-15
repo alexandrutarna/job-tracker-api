@@ -1,20 +1,41 @@
-# app/schemas.py - Pydantic models for request/response validation
-
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, Field
 from datetime import datetime
+from typing import Optional
 
 class JobBase(BaseModel):
-    name: str
-    status: str
-    result: Optional[str] = None
+    name: str = Field(..., example="Build CERN data pipeline")
+    status: Optional[str] = Field(default="queued", example="queued")
+    result: Optional[str] = Field(default=None, example=None)
 
 class JobCreate(JobBase):
-    pass  # same fields as JobBase
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "name": "Run data analysis",
+                    "status": "queued",
+                    "result": None
+                }
+            ]
+        }
+    }
 
-class JobRead(JobBase):
-    id: int
-    created_at: datetime
 
-    class Config:
-        orm_mode = True  # Required for converting from SQLAlchemy object to JSON
+class JobResponse(JobBase):
+    id: int = Field(..., example=1)
+    created_at: datetime = Field(..., example="2025-07-15T13:54:23.591450")
+
+    model_config = {
+        "from_attributes": True,
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "id": 1,
+                    "name": "Run data analysis",
+                    "status": "queued",
+                    "result": None,
+                    "created_at": "2025-07-15T13:54:23.591450"
+                }
+            ]
+        }
+    }
