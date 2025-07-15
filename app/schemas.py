@@ -39,3 +39,20 @@ class JobResponse(JobBase):
             ]
         }
     }
+
+
+class JobUpdate(BaseModel):
+    name: Optional[str] = Field(default=None, example="Analyze data batch 42")
+    status: Optional[str] = Field(default=None, example="running")
+    result: Optional[str] = Field(default=None, example="Success")
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "status": "done",
+                    "result": "Job completed successfully"
+                }
+            ]
+        }
+    }

@@ -37,3 +37,28 @@ def get_job(job_id: int, db: Session = Depends(get_db)):
 def get_jobs(db: Session = Depends(get_db)):
     jobs = db.query(models.Job).all()
     return jobs
+
+
+@router.patch("/{job_id}", response_model=schemas.JobResponse)
+def update_job(job_id: int, updates: schemas.JobUpdate, db: Session = Depends(get_db)):
+    job = db.query(models.Job).filter(models.Job.id == job_id).first()
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    update_data = updates.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(job, key, value)
+
+    db.commit()
+    db.refresh(job)
+    return job
+
+@router.delete("/{job_id}", status_code=204)
+def delete_job(job_id: int, db: Session = Depends(get_db)):
+    job = db.query(models.Job).filter(models.Job.id == job_id).first()
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    db.delete(job)
+    db.commit()
+    return

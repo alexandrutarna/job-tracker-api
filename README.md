@@ -89,6 +89,46 @@ FastAPI generates Swagger and ReDoc UIs automatically:
 }
 ```
 
+### 📄 Example Response (GET `/jobs`)
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Build CERN data pipeline",
+    "status": "queued",
+    "result": null
+  }
+]
+```
+
+### 🗂️ Example Response (GET `/jobs/{id}`)
+
+```json
+{
+  "id": 1,
+  "name": "Build CERN data pipeline",
+  "status": "queued",
+  "result": null
+}
+```
+
+### 🔄 Example Update (PATCH `/jobs/{id}`)
+
+```json
+{
+  "status": "running"
+}
+```
+
+### ❌ Example Delete (DELETE `/jobs/{id}`)
+
+```json
+{
+  "message": "Job deleted successfully"
+}
+```
+
 ## 🧰 pgAdmin Access
 
 - URL: <http://localhost:5050>  
@@ -108,9 +148,6 @@ Add a new server:
 - `GET /` → Health check  
 - `POST /jobs` → Submit a job  
 - `GET /jobs` → List all jobs  
-
-🚧 Coming soon:  
-
-- `GET /jobs/{id}`  
-- `PUT /jobs/{id}`  
-- `DELETE /jobs/{id}`  
+- `GET /jobs/{id}` → Get job by ID
+- `PATCH /jobs/{id}` → Update job status
+- `DELETE /jobs/{id}` → Delete job by ID
