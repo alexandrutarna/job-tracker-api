@@ -3,3 +3,7 @@ sqlalchemy
 psycopg2-binary
 alembic
 python-dotenv
+
+# Testing dependencies
+pytest
+httpx
