@@ -21,6 +21,7 @@ A mock FastAPI project that simulates job submission and tracking, inspired by C
 
 ## 📦 Project Structure
 
+```bash
 job-tracker-api/
 ├── app/
 │ ├── main.py # FastAPI entrypoint
@@ -31,9 +32,9 @@ job-tracker-api/
 ├── .env # DB connection vars
 ├── .dockerignore
 └── README.md
+```
 
 ---
-
 
 ---
 
